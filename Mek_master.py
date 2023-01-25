@@ -175,24 +175,44 @@ def run_exec(exec): #运行系统命令
     return os.popen(exec).read() #后台执行 返回命令行打印结果
 
 def get_file_MD5(file): #获取文件MD5
+    m = hashlib.md5()
     with open(file,'rb') as f:
-        bytes = f.read()
-        return hashlib.md5(bytes).hexdigest()
+        while True:
+            bytes = f.read(4096)
+            if not bytes:
+                break
+            m.update(bytes)
+        return m.hexdigest()
 
 def get_file_SHA1(file): #获取文件SHA1
+    m = hashlib.sha1()
     with open(file,'rb') as f:
-        bytes = f.read()
-        return hashlib.sha1(bytes).hexdigest()
+        while True:
+            bytes = f.read(4096)
+            if not bytes:
+                break
+            m.update(bytes)
+        return m.hexdigest()
 
 def get_file_SHA256(file): #获取文件SHA256
-    with open(file,'rb') as f:
-        bytes = f.read()
-        return hashlib.sha256(bytes).hexdigest()
+    m = hashlib.sha256()
+    with open(file, 'rb') as f:
+        while True:
+            bytes = f.read(4096)
+            if not bytes:
+                break
+            m.update(bytes)
+        return m.hexdigest()
 
 def get_file_SHA512(file): #获取文件SHA512
-    with open(file,'rb') as f:
-        bytes = f.read()
-        return hashlib.sha512(bytes).hexdigest()
+    m = hashlib.sha512()
+    with open(file, 'rb') as f:
+        while True:
+            bytes = f.read(4096)
+            if not bytes:
+                break
+            m.update(bytes)
+        return m.hexdigest()
 
 def get_file_size(file,rou=2): #获取文件大小 默认为Kb,保留小数点后2位
     return round(os.stat(file).st_size/1024,rou)
