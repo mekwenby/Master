@@ -32,5 +32,3 @@ def get_video_info(file):
     return None
 
 
-if __name__ == '__main__':
-    print(get_video_info('FC2-1415477.mp4'))

@@ -65,5 +65,3 @@ def decode_QRcode(file):  # 解析二维码
     return pyzbar.decode(Image.open(file), symbols=[pyzbar.ZBarSymbol.QRCODE])[0].data
 
 
-if __name__ == '__main__':
-    pass
