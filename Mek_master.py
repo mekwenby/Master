@@ -9,9 +9,10 @@ import random
 import pickle
 import hashlib
 
-compile_time=20220314
+compile_time = 20230203
 
-def logo_Slabt(str=''): #打印Logo
+
+def logo_Slabt(str=''):  # 打印Logo
     text = f'''
     __  ___       __  
    /  |/  /___   / /__
@@ -22,8 +23,9 @@ def logo_Slabt(str=''): #打印Logo
         '''
     print(text)
 
+
 def logo_pray():
-    srt1111=r'''
+    srt1111 = r'''
 	                   _ooOoo_
 	                  o8888888o
 	                  88" . "88
@@ -42,72 +44,88 @@ def logo_pray():
 	     \  \ `-.   \_ __\ /__ _/   .-` /  /
 	======`-.____`-.___\_____/___.-`____.-'======
 	                   `=-='
-	                南无阿弥陀佛
+	                 南无阿弥陀佛
     
     '''
     print(srt1111)
 
 
-def print_class(object): #打印对象类型
+def print_class(object):  # 打印对象类型
     print(type(object))
 
+
 '''数据持久化操作'''
-def read_file(file): #读取文件
-    with open(file,'r',encoding='utf-8') as file:
+
+
+def read_file(file):  # 读取文件
+    with open(file, 'r', encoding='utf-8') as file:
         Data = file.read()
         return Data
 
-def write_file(file,Data): #写入文件
-    with open(file,'w',encoding='utf-8') as file:
+
+def write_file(file, Data):  # 写入文件
+    with open(file, 'w', encoding='utf-8') as file:
         file.write(str(Data))
 
-def read_file_byte(file): #二进制读取
+
+def read_file_byte(file):  # 二进制读取
     '''二进制读取模式不接受encoding编码参数'''
-    with open(file,'rb') as file:
+    with open(file, 'rb') as file:
         Data = file.read()
         return Data
 
-def write_file_byte(file,Data): #二进制写入文件，Data为二进制数据
+
+def write_file_byte(file, Data):  # 二进制写入文件，Data为二进制数据
     '''二进制写入模式不接受encoding编码参数'''
-    with open(file,'wb') as file:
+    with open(file, 'wb') as file:
         file.write(Data)
 
-def addition_write_file(file,Data): #追加写入文件
-    with open(file,'a+',encoding='utf-8') as file:
+
+def addition_write_file(file, Data):  # 追加写入文件
+    with open(file, 'a+', encoding='utf-8') as file:
         file.write(str(Data))
 
-def read_json(file): #读取json文件
+
+def read_json(file):  # 读取json文件
     with open(file, 'r', encoding='utf-8') as file:
         Data = json.load(file)
         return Data
 
-def write_json(file,Data): #写入json文件
+
+def write_json(file, Data):  # 写入json文件
     with open(file, 'w', encoding='utf-8') as file:
         json.dump(Data, file)
 
-def addition_write_json(file,Data): #追加写入json文件
+
+def addition_write_json(file, Data):  # 追加写入json文件
     with open(file, 'a+', encoding='utf-8') as file:
         json.dump(Data, file)
 
-def read_csv(file): #读取csv文件返回列表
-    with open(file,'r',newline='') as file:
+
+def read_csv(file):  # 读取csv文件返回列表
+    with open(file, 'r', newline='') as file:
         Data = csv.reader(file)
         lis = []
         for i in Data:
             lis.append(i)
         return lis
 
-def write_csv(file, lis): #将嵌套列表写入csv文件
+
+def write_csv(file, lis):  # 将嵌套列表写入csv文件
     with open(file, 'w', newline='') as file:
         w = csv.writer(file)
         for Data in lis:
             w.writerow(Data)
 
+
 '''时间操作'''
-def get_localtime(): #获取本地时间 2022-03-10 14:01:30
+
+
+def get_localtime():  # 获取本地时间 2022-03-10 14:01:30
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
-def get_numbertime(): #获得数字序列日期 20220310140628
+
+def get_numbertime():  # 获得数字序列日期 20220310140628
     localtime = time.localtime()
 
     def JL(I):  # 判断是否大于10，不大于则加0
@@ -125,15 +143,24 @@ def get_numbertime(): #获得数字序列日期 20220310140628
     time_N = JL(Y) + JL(M) + JL(M2) + JL(M3) + JL(M4) + JL(M5)
     return str(time_N)
 
+
+def from_unix_time(unix):
+    """ unix 时间转换时间对象"""
+    t = datetime.datetime.fromtimestamp(unix)
+    return t, t.strftime("%Y-%m-%d %H:%M:%S")
+
+
 '''文件操作'''
-class Create_Dir_tree(object): #生成目录树
+
+
+class Create_Dir_tree(object):  # 生成目录树
     def __init__(self):
         self.SPACE = ""
         self.list = []
 
     def getCount(self, url):
         files = os.listdir(url)
-        count = 0;
+        count = 0
         for file in files:
             myfile = url + "\\" + file
             if os.path.isfile(myfile):
@@ -165,18 +192,22 @@ class Create_Dir_tree(object): #生成目录树
                 self.SPACE = self.SPACE[:-4]
         return self.list
 
-def get_osname(): #获取系统平台
+
+def get_osname():  # 获取系统平台
     return os.name
 
-def get_wokerdir(): #获取当前工作路径
+
+def get_wokerdir():  # 获取当前工作路径
     return os.getcwd()
 
-def run_exec(exec): #运行系统命令
-    return os.popen(exec).read() #后台执行 返回命令行打印结果
 
-def get_file_MD5(file): #获取文件MD5
+def run_exec(cmd):  # 运行系统命令
+    return os.popen(cmd).read()  # 后台执行 返回命令行打印结果
+
+
+def get_file_MD5(file):  # 获取文件MD5
     m = hashlib.md5()
-    with open(file,'rb') as f:
+    with open(file, 'rb') as f:
         while True:
             bytes = f.read(4096)
             if not bytes:
@@ -184,9 +215,10 @@ def get_file_MD5(file): #获取文件MD5
             m.update(bytes)
         return m.hexdigest()
 
-def get_file_SHA1(file): #获取文件SHA1
+
+def get_file_SHA1(file):  # 获取文件SHA1
     m = hashlib.sha1()
-    with open(file,'rb') as f:
+    with open(file, 'rb') as f:
         while True:
             bytes = f.read(4096)
             if not bytes:
@@ -194,7 +226,8 @@ def get_file_SHA1(file): #获取文件SHA1
             m.update(bytes)
         return m.hexdigest()
 
-def get_file_SHA256(file): #获取文件SHA256
+
+def get_file_SHA256(file):  # 获取文件SHA256
     m = hashlib.sha256()
     with open(file, 'rb') as f:
         while True:
@@ -204,7 +237,8 @@ def get_file_SHA256(file): #获取文件SHA256
             m.update(bytes)
         return m.hexdigest()
 
-def get_file_SHA512(file): #获取文件SHA512
+
+def get_file_SHA512(file):  # 获取文件SHA512
     m = hashlib.sha512()
     with open(file, 'rb') as f:
         while True:
@@ -214,83 +248,123 @@ def get_file_SHA512(file): #获取文件SHA512
             m.update(bytes)
         return m.hexdigest()
 
-def get_file_size(file,rou=2): #获取文件大小 默认为Kb,保留小数点后2位
-    return round(os.stat(file).st_size/1024,rou)
 
-def get_file_class(file): #获取文件名和后缀
-    return [os.path.splitext(file)[0],os.path.splitext(file)[-1]]
+def get_file_size(file, rou=2):  # 获取文件大小 默认为Kb,保留小数点后2位
+    return round(os.stat(file).st_size / 1024, rou)
 
-file_name_link = os.path.join #文件名链接
 
-mkdir = os.mkdir #创建文件夹
+def get_file_class(file):  # 获取文件名和后缀
+    return [os.path.splitext(file)[0], os.path.splitext(file)[-1]]
 
-mkdirs = os.makedirs #递归创建文件夹
 
-rm = os.remove #删除文件
+def get_dir_allfile(path):
+    """获取目录下全部文件"""
+    file_list = []
+    for root, dirs, files in os.walk(path):
+        for name in files:
+            file_path = os.path.join(root, name)
+            file_list.append(file_path)
 
-rmd = os.rmdir #删除文件夹
+    return file_list
 
-file_exist = os.path.exists #检测文件或目录是否存在。存在返回 True , 不存在返回 False
 
-isfile = os.path.isfile #判断是否为文件。是返回 True， 不是返回 False。也可以用来判断文件是否存在。
+file_path_link = os.path.join  # 文件名链接
 
-isdir = os.path.isdir #判断是否为目录。是返回 True， 不是返回 False。也可以用来判断目录是否存在。
+mkdir = os.mkdir  # 创建文件夹
 
+mkdirs = os.makedirs  # 递归创建文件夹
+
+rm = os.remove  # 删除文件
+
+rmd = os.rmdir  # 删除文件夹
+
+file_exist = os.path.exists  # 检测文件或目录是否存在。存在返回 True , 不存在返回 False
+
+isfile = os.path.isfile  # 判断是否为文件。是返回 True， 不是返回 False。也可以用来判断文件是否存在。
+
+isdir = os.path.isdir  # 判断是否为目录。是返回 True， 不是返回 False。也可以用来判断目录是否存在。
 
 '''随机数生成'''
+
+
 def get_uuid1(clock_seq=None):
     '''根据MAC地址和时间生成UUID'''
     return uuid.uuid1(clock_seq=clock_seq)
 
+
 def get_uuid4():
     return uuid.uuid4()
+
 
 def get_uuid4_hex():
     Str = uuid.uuid4()
     return Str.hex
 
+
 def get_random_letters(N=4):
     s = ''
     for i in range(N):
-        s+=random.choice(string.ascii_uppercase)
+        s += random.choice(string.ascii_uppercase)
     return s
+
 
 def get_random_numbe(N=4):
     s = ''
     for i in range(N):
-        s+=random.choice(string.digits)
+        s += random.choice(string.digits)
     return s
+
 
 def get_random_hax(N=4):
     s = ''
     for i in range(N):
-        s+=random.choice(string.hexdigits)
+        s += random.choice(string.hexdigits)
     return s
 
-'''对象持久化'''
-def write_obj_file(file,obj): #对象写入文件
-    with open(file,'wb') as file:
-        pickle.dump(obj,file)
 
-def read_obj_file(file): #从文件读取对象
-    with open(file,'rb') as file:
-       return pickle.load(file) #返回恢复后的对象
+'''对象持久化'''
+
+
+def write_obj_file(file, obj):  # 对象写入文件
+    with open(file, 'wb') as file:
+        pickle.dump(obj, file)
+
+
+def read_obj_file(file):  # 从文件读取对象
+    with open(file, 'rb') as file:
+        return pickle.load(file)  # 返回恢复后的对象
+
 
 '''字符串操作'''
-def get_string_MD5(str): #获取字符串的MD5
+
+
+def get_string_MD5(str):  # 获取字符串的MD5
     return hashlib.md5(str.encode('utf-8')).hexdigest()
 
-def get_string_SHA256(str): #获取字符串的SHA256
+
+def get_string_SHA256(str):  # 获取字符串的SHA256
     return hashlib.sha256(str.encode('utf-8')).hexdigest()
 
-def get_string_SHA512(str): #获取字符串的SHA512
+
+def get_string_SHA512(str):  # 获取字符串的SHA512
     return hashlib.sha512(str.encode('utf-8')).hexdigest()
 
-def convert_string_list(str='Mek',cut=' '): #字符串转列表 str=字符串,cut=分割符
+
+def convert_string_list(str='Mek', cut=' '):  # 字符串转列表 str=字符串,cut=分割符
     return str.split(cut)
 
 
-#logo_Slabt(get_localtime())
+def runtime_duration(func, info=None):
+    """打印函数运行所需时长"""
+    """ lambda: func(**args) """
+
+    start = time.time()
+    func()
+    end = time.time()
+    print(f'func:{func}\n{end - start}\n{info}')
+    return end - start
+
+
+# logo_Slabt(get_localtime())
 if __name__ == '__main__':
     logo_Slabt()
-    logo_pray()

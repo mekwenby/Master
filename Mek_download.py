@@ -1,31 +1,62 @@
 # 下载工具集
 
+"""
+wget
+requests
+"""
+
 import wget
 import os
+import requests
+from urllib.parse import quote, unquote
 
-compile_time = 20220426
+compile_time = 20230131
 
-class _wget():
-    def __init__(self,url):
-        '''url  = 资源路径  DL = 下载保存路径'''
-        self.url = url
-        self.DL = 'DL'
 
-    def download(self):
-        #通过url直接下载
-        wget.download(url=self.url)
+def url_encode(string):
+    """把字符串转换为URL编码"""
+    return quote(string)
 
-    def get_file_name(self):
-        #获取文件名
-        self.name = wget.filename_from_url(self.url)
-        return self.name
 
-    def file_not_download(self):
-        #判断文件是否存在，不存在则下载
-        if os.path.isfile(self.get_file_name()):
-            print('文件已存在！')
-        else:
-            file_path = os.path.join(self.DL,self.get_file_name())
-            wget.download(self.url,out=file_path)
+def url_decode(string):
+    """把URL编码解码为字符串,默认使用UTF8字符集"""
+    return unquote(string)
 
-            
+
+def from_url_filename(url):
+    """从url获取文件名"""
+    return url.split('/')[-1]
+
+
+# wget 下载文件
+def wget_download(url):
+    # 通过url直接下载,保存到当前目录
+    wget.download(url=url)
+
+
+def wget_get_file_name(url):
+    # 获取文件名
+    name = wget.filename_from_url(url)
+    return name
+
+
+def wget_file_not_download(url):
+    # 判断文件是否存在，不存在则下载
+    if os.path.isfile(wget_get_file_name(url)):
+        print('文件已存在！')
+    else:
+        wget.download(url)
+
+
+# requests 下载文件
+def r_download(url):
+    # 获取文件名
+    filename = from_url_filename(url)
+    # 判断文件是否存在,不存在则下载
+    if not os.path.isfile(filename):
+        responder = requests.get(url)
+        # 判断连接状态
+        if responder.ok:
+            with open(filename, 'wb') as f:
+                # responder.content 获得响应主体
+                f.write(responder.content)
