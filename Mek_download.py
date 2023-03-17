@@ -35,7 +35,7 @@ def wget_download(url):
 
 
 def wget_get_file_name(url):
-    # 获取文件名
+    # 通过网络获取文件名
     name = wget.filename_from_url(url)
     return name
 
@@ -60,3 +60,14 @@ def r_download(url):
             with open(filename, 'wb') as f:
                 # responder.content 获得响应主体
                 f.write(responder.content)
+
+
+"""
+关于获取文件名：
+通过url获取文件名效率高，需要url中包含文件名才能使用
+通过网络获取文件名效率低，获取的文件名准确
+
+关于下载：
+不建议直接引入内置的下载函数
+
+"""

@@ -1,5 +1,6 @@
 import json
 import csv
+import shutil
 import time
 import datetime
 import os
@@ -9,7 +10,7 @@ import random
 import pickle
 import hashlib
 
-compile_time = 20230203
+compile_time = 20230317
 
 
 def logo_Slabt(str=''):  # 打印Logo
@@ -126,6 +127,7 @@ def get_localtime():  # 获取本地时间 2022-03-10 14:01:30
 
 
 def get_numbertime():  # 获得数字序列日期 20220310140628
+    """获得数字序列日期 20220310140628"""
     localtime = time.localtime()
 
     def JL(I):  # 判断是否大于10，不大于则加0
@@ -147,7 +149,24 @@ def get_numbertime():  # 获得数字序列日期 20220310140628
 def from_unix_time(unix):
     """ unix 时间转换时间对象"""
     t = datetime.datetime.fromtimestamp(unix)
+    # (datetime.datetime(2023, 3, 17, 19, 3, 8), '2023-03-17 19:03:08')
+    # 字符串时间取[-1],时间对象取0
     return t, t.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def stringtime_to_unix(s):
+    """字符串时间转unix"""
+    date_time_start = datetime.datetime.strptime(s, "%Y-%m-%d %H:%M:%S")
+    unix_time = time.mktime(date_time_start.timetuple())
+    return int(unix_time)
+
+
+def html_stringtime_to_unix(s):
+    # 处理HTML前端字符串时间转unix
+    # print(s)
+    date_time_start = datetime.datetime.strptime(s, "%Y-%m-%dT%H:%M")
+    unix_time = time.mktime(date_time_start.timetuple())
+    return int(unix_time)
 
 
 '''文件操作'''
@@ -268,6 +287,41 @@ def get_dir_allfile(path):
     return file_list
 
 
+def dir_notis_make(path):
+    """文件夹不存在则创建"""
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+
+def cp_file(source_file, destination_file):
+    """复制文件"""
+    shutil.copy(source_file, destination_file)
+
+
+def cp_dir(source_dir, destination_dir):
+    """复制文件夹"""
+    shutil.copytree(source_dir, destination_dir)
+
+
+def cp(source, destination):
+    """通用复制函数"""
+    if os.path.isdir:
+        cp_dir(source, destination)
+    if os.path.isfile:
+        cp_file(source, destination)
+
+
+def create_zip(filename, path):
+    """压缩文件为zip格式"""
+    shutil.make_archive(filename, "zip", path)
+
+
+def unzip(file, extract_dir='.'):
+    """解压缩  extract_dir解压目录，默认为当前目录"""
+    dir_notis_make(extract_dir)  # 路径不存在时自动创建
+    shutil.unpack_archive(file, extract_dir)
+
+
 file_path_link = os.path.join  # 文件名链接
 
 mkdir = os.mkdir  # 创建文件夹
@@ -276,7 +330,9 @@ mkdirs = os.makedirs  # 递归创建文件夹
 
 rm = os.remove  # 删除文件
 
-rmd = os.rmdir  # 删除文件夹
+rmd = os.rmdir  # 删除空文件夹
+
+rm_rf = shutil.rmtree  # 递归删除文件夹
 
 file_exist = os.path.exists  # 检测文件或目录是否存在。存在返回 True , 不存在返回 False
 
