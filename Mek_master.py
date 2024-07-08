@@ -420,6 +420,14 @@ def runtime_duration(func, info=None):
     print(f'func:{func}\n{end - start}\n{info}')
     return end - start
 
+class BaseFile:
+    def __init__(self, filepath):
+        self.file_path = filepath
+        self.file_root = os.path.dirname(filepath)
+        self.file_name = os.path.basename(filepath)
+        self.file_size = os.path.getsize(filepath)
+        self.file_type = os.path.splitext(self.file_path)[1]
+
 
 # logo_Slabt(get_localtime())
 if __name__ == '__main__':
