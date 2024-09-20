@@ -420,6 +420,7 @@ def runtime_duration(func, info=None):
     print(f'func:{func}\n{end - start}\n{info}')
     return end - start
 
+
 class BaseFile:
     def __init__(self, filepath):
         self.file_path = filepath
@@ -428,6 +429,14 @@ class BaseFile:
         self.file_size = os.path.getsize(filepath)
         self.file_type = os.path.splitext(self.file_path)[1]
 
+    def rm_file(self):
+        if os.path.exists(self.file_path):
+            os.remove(self.file_path)
+        else:
+            raise FileNotFoundError(f'{self.file_path} 文件不存在!')
+
+    def copy_file(self,target_path):
+        shutil.copy(self.file_path, target_path)
 
 # logo_Slabt(get_localtime())
 if __name__ == '__main__':
