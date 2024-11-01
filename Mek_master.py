@@ -10,6 +10,7 @@ import random
 import pickle
 import hashlib
 import logging
+from functools import wraps
 
 compile_time = 20241102
 
@@ -411,15 +412,29 @@ def convert_string_list(str='Mek', cut=' '):  # 字符串转列表 str=字符串
     return str.split(cut)
 
 
-def runtime_duration(func, info=None):
-    """打印函数运行所需时长"""
-    """ lambda: func(**args) """
-
+def runtime_duration(func, *args, **kwargs):
+    """打印函数运行所需时长。"""
     start = time.time()
-    func()
+    result = func(*args, **kwargs)
     end = time.time()
-    print(f'func:{func}\n{end - start}\n{info}')
-    return end - start
+
+    print(f'函数名: {func.__name__}\n时长: {end - start:.4f} 秒')
+    return end - start, result  # 返回时长和函数的返回值
+
+
+def runtime_duration_(func):
+    """装饰器：打印函数运行所需时长。"""
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+
+        print(f'函数名: {func.__name__}\n时长: {end - start:.4f} 秒')
+        return result  # 返回函数的返回值
+
+    return wrapper
 
 
 class BaseFile:
@@ -466,6 +481,12 @@ class BaseLog:
         self.log_root.error(text)
 
 
+@runtime_duration_
+def pr111(n):
+    """测试 runtime_duration_ 装饰器"""
+    return n
+
+
 # logo_Slabt(get_localtime())
 if __name__ == '__main__':
-    logo_Slabt()
+    pass
