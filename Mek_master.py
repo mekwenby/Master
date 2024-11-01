@@ -9,8 +9,9 @@ import string
 import random
 import pickle
 import hashlib
+import logging
 
-compile_time = 20230317
+compile_time = 20241102
 
 
 def logo_Slabt(str=''):  # 打印Logo
@@ -435,8 +436,35 @@ class BaseFile:
         else:
             raise FileNotFoundError(f'{self.file_path} 文件不存在!')
 
-    def copy_file(self,target_path):
+    def copy_file(self, target_path):
         shutil.copy(self.file_path, target_path)
+
+
+class BaseLog:
+    def __init__(self):
+        """
+        日志打印基类
+        self.log_root.info
+        self.log_root.warning()
+        self.log_root.error()
+        self.log_root.debug()
+
+
+
+        """
+        self.log_root = logging
+        self.log_root.basicConfig(level=logging.DEBUG,
+                                  format='%(asctime)s - %(levelname)s - %(message)s')
+
+    def printInfo(self, text):
+        self.log_root.info(text)
+
+    def printWarning(self, text):
+        self.log_root.warning(text)
+
+    def printError(self, text):
+        self.log_root.error(text)
+
 
 # logo_Slabt(get_localtime())
 if __name__ == '__main__':
