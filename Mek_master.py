@@ -418,7 +418,7 @@ def runtime_duration(func, *args, **kwargs):
     result = func(*args, **kwargs)
     end = time.time()
 
-    print(f'函数名: {func.__name__}\n时长: {end - start:.4f} 秒')
+    printLog.printInfo(f'\n函数名: {func.__name__}\n运行时长: {end - start:.4f} 秒')
     return end - start, result  # 返回时长和函数的返回值
 
 
@@ -431,7 +431,7 @@ def runtime_duration_(func):
         result = func(*args, **kwargs)
         end = time.time()
 
-        print(f'函数名: {func.__name__}\n时长: {end - start:.4f} 秒')
+        printLog.printInfo(f'\n函数名: {func.__name__}\n运行时长: {end - start:.4f} 秒')
         return result  # 返回函数的返回值
 
     return wrapper
@@ -487,6 +487,7 @@ def pr111(n):
     return n
 
 
-# logo_Slabt(get_localtime())
+printLog = BaseLog()
+
 if __name__ == '__main__':
-    pass
+    pr111(1)
