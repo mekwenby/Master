@@ -307,9 +307,9 @@ def cp_dir(source_dir, destination_dir):
 
 def cp(source, destination):
     """通用复制函数"""
-    if os.path.isdir:
+    if os.path.isdir(source):
         cp_dir(source, destination)
-    if os.path.isfile:
+    if os.path.isfile(source):
         cp_file(source, destination)
 
 
