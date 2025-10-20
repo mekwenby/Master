@@ -9,19 +9,17 @@ import string
 import random
 import pickle
 import hashlib
-import logging
-from functools import wraps
 
-compile_time = 20241102
+compile_time = 20251020
 
 
-def logo_Slabt(str=''):  # 打印Logo
+def logo_slabs(str_=''):  # 打印Logo
     text = f'''
     __  ___       __  
    /  |/  /___   / /__
   / /|_/ // _ \ / //_/
  / /  / //  __// ,<       v{compile_time}
-/_/  /_/ \___//_/|_|  {str}
+/_/  /_/ \___//_/|_|  {str_}
 
         '''
     print(text)
@@ -53,8 +51,8 @@ def logo_pray():
     print(srt1111)
 
 
-def print_class(object):  # 打印对象类型
-    print(type(object))
+def print_class(object_):  # 打印对象类型
+    print(type(object_))
 
 
 '''数据持久化操作'''
@@ -66,9 +64,9 @@ def read_file(file):  # 读取文件
         return Data
 
 
-def write_file(file, Data):  # 写入文件
+def write_file(file, data):  # 写入文件
     with open(file, 'w', encoding='utf-8') as file:
-        file.write(str(Data))
+        file.write(str(data))
 
 
 def read_file_byte(file):  # 二进制读取
@@ -78,15 +76,15 @@ def read_file_byte(file):  # 二进制读取
         return Data
 
 
-def write_file_byte(file, Data):  # 二进制写入文件，Data为二进制数据
+def write_file_byte(file, data):  # 二进制写入文件，Data为二进制数据
     '''二进制写入模式不接受encoding编码参数'''
     with open(file, 'wb') as file:
-        file.write(Data)
+        file.write(data)
 
 
-def addition_write_file(file, Data):  # 追加写入文件
+def addition_write_file(file, data):  # 追加写入文件
     with open(file, 'a+', encoding='utf-8') as file:
-        file.write(str(Data))
+        file.write(str(data))
 
 
 def read_json(file):  # 读取json文件
@@ -95,14 +93,14 @@ def read_json(file):  # 读取json文件
         return Data
 
 
-def write_json(file, Data):  # 写入json文件
+def write_json(file, data):  # 写入json文件
     with open(file, 'w', encoding='utf-8') as file:
-        json.dump(Data, file)
+        json.dump(data, file)
 
 
-def addition_write_json(file, Data):  # 追加写入json文件
+def addition_write_json(file, data):  # 追加写入json文件
     with open(file, 'a+', encoding='utf-8') as file:
-        json.dump(Data, file)
+        json.dump(data, file)
 
 
 def read_csv(file):  # 读取csv文件返回列表
@@ -115,7 +113,7 @@ def read_csv(file):  # 读取csv文件返回列表
 
 
 def write_csv(file, lis):  # 将嵌套列表写入csv文件
-    with open(file, 'w', newline='') as file:
+    with open(file, 'w', newline='', encoding='utf-8') as file:
         w = csv.writer(file)
         for Data in lis:
             w.writerow(Data)
@@ -128,7 +126,7 @@ def get_localtime():  # 获取本地时间 2022-03-10 14:01:30
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 
-def get_numbertime():  # 获得数字序列日期 20220310140628
+def get_number_time():  # 获得数字序列日期 20220310140628
     """获得数字序列日期 20220310140628"""
     localtime = time.localtime()
 
@@ -174,7 +172,7 @@ def html_stringtime_to_unix(s):
 '''文件操作'''
 
 
-class Create_Dir_tree(object):  # 生成目录树
+class CreateDirtree(object):  # 生成目录树
     def __init__(self):
         self.SPACE = ""
         self.list = []
@@ -218,7 +216,7 @@ def get_osname():  # 获取系统平台
     return os.name
 
 
-def get_wokerdir():  # 获取当前工作路径
+def get_worker_dir():  # 获取当前工作路径
     return os.getcwd()
 
 
@@ -289,7 +287,7 @@ def get_dir_allfile(path):
     return file_list
 
 
-def dir_notis_make(path):
+def dir_notes_make(path):
     """文件夹不存在则创建"""
     if not os.path.exists(path):
         os.makedirs(path)
@@ -309,8 +307,10 @@ def cp(source, destination):
     """通用复制函数"""
     if os.path.isdir(source):
         cp_dir(source, destination)
-    if os.path.isfile(source):
+    elif os.path.isfile(source):
         cp_file(source, destination)
+    else:
+        print("Source is neither a file nor a directory.")
 
 
 def create_zip(filename, path):
@@ -320,7 +320,7 @@ def create_zip(filename, path):
 
 def unzip(file, extract_dir='.'):
     """解压缩  extract_dir解压目录，默认为当前目录"""
-    dir_notis_make(extract_dir)  # 路径不存在时自动创建
+    dir_notes_make(extract_dir)  # 路径不存在时自动创建
     shutil.unpack_archive(file, extract_dir)
 
 
@@ -366,7 +366,7 @@ def get_random_letters(N=4):
     return s
 
 
-def get_random_numbe(N=4):
+def get_random_number(N=4):
     s = ''
     for i in range(N):
         s += random.choice(string.digits)
@@ -396,45 +396,31 @@ def read_obj_file(file):  # 从文件读取对象
 '''字符串操作'''
 
 
-def get_string_MD5(str):  # 获取字符串的MD5
-    return hashlib.md5(str.encode('utf-8')).hexdigest()
+def get_string_MD5(str_):  # 获取字符串的MD5
+    return hashlib.md5(str_.encode('utf-8')).hexdigest()
 
 
-def get_string_SHA256(str):  # 获取字符串的SHA256
-    return hashlib.sha256(str.encode('utf-8')).hexdigest()
+def get_string_SHA256(str_):  # 获取字符串的SHA256
+    return hashlib.sha256(str_.encode('utf-8')).hexdigest()
 
 
-def get_string_SHA512(str):  # 获取字符串的SHA512
-    return hashlib.sha512(str.encode('utf-8')).hexdigest()
+def get_string_SHA512(str_):  # 获取字符串的SHA512
+    return hashlib.sha512(str_.encode('utf-8')).hexdigest()
 
 
-def convert_string_list(str='Mek', cut=' '):  # 字符串转列表 str=字符串,cut=分割符
-    return str.split(cut)
+def convert_string_list(str_='Mek', cut=' '):  # 字符串转列表 str=字符串,cut=分割符
+    return str_.split(cut)
 
 
-def runtime_duration(func, *args, **kwargs):
-    """打印函数运行所需时长。"""
+def runtime_duration(func, info=None):
+    """打印函数运行所需时长"""
+    """ lambda: func(**args) """
+
     start = time.time()
-    result = func(*args, **kwargs)
+    func()
     end = time.time()
-
-    printLog.printInfo(f'\n函数名: {func.__name__}\n运行时长: {end - start:.4f} 秒')
-    return end - start, result  # 返回时长和函数的返回值
-
-
-def runtime_duration_(func):
-    """装饰器：打印函数运行所需时长。"""
-
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        start = time.time()
-        result = func(*args, **kwargs)
-        end = time.time()
-
-        printLog.printInfo(f'\n函数名: {func.__name__}\n运行时长: {end - start:.4f} 秒')
-        return result  # 返回函数的返回值
-
-    return wrapper
+    print(f'func:{func}\n{end - start}\n{info}')
+    return end - start
 
 
 class BaseFile:
@@ -448,46 +434,7 @@ class BaseFile:
     def rm_file(self):
         if os.path.exists(self.file_path):
             os.remove(self.file_path)
-        else:
-            raise FileNotFoundError(f'{self.file_path} 文件不存在!')
 
-    def copy_file(self, target_path):
-        shutil.copy(self.file_path, target_path)
-
-
-class BaseLog:
-    def __init__(self):
-        """
-        日志打印基类
-        self.log_root.info
-        self.log_root.warning()
-        self.log_root.error()
-        self.log_root.debug()
-
-
-
-        """
-        self.log_root = logging
-        self.log_root.basicConfig(level=logging.DEBUG,
-                                  format='%(asctime)s - %(levelname)s - %(message)s')
-
-    def printInfo(self, text):
-        self.log_root.info(text)
-
-    def printWarning(self, text):
-        self.log_root.warning(text)
-
-    def printError(self, text):
-        self.log_root.error(text)
-
-
-@runtime_duration_
-def pr111(n):
-    """测试 runtime_duration_ 装饰器"""
-    return n
-
-
-printLog = BaseLog()
 
 if __name__ == '__main__':
-    pr111(1)
+    logo_slabs()
