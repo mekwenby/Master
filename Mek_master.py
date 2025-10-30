@@ -11,8 +11,8 @@ import pickle
 import hashlib
 
 compile_time = 20251020
-
-
+# os.environ['TZ'] = 'Asia/Shanghai'
+ 
 def logo_slabs(str_=''):  # 打印Logo
     text = f'''
     __  ___       __  
@@ -438,3 +438,4 @@ class BaseFile:
 
 if __name__ == '__main__':
     logo_slabs()
+
